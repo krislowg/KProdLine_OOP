@@ -1,0 +1,42 @@
+/**
+ * Semester: Fall 2019.
+ *9/28/2019
+ * ProductionLine
+ * Program that helps a media player production facility keep track of their produced products.
+ * @author Kristy Low
+ *
+ */
+
+.root {
+  -fx-background-image: url("background.jpg");
+}
+
+#btn_addproduct, #btn_RecProduction {
+  -fx-text-fill: white;
+  -fx-font-family: "Arial Narrow";
+  -fx-font-weight: bold;
+  -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+  -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#btn_addproduct:hover, #btn_RecProduction:hover {
+  -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
+
+.label {
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
+  -fx-text-fill: white;
+  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.tab-pane {
+  -fx-font-size: 15px;
+  -fx-font-weight: bold;
+  -fx-text-fill: white;
+}
+
+
+/*
+Background Photo by James Owen on Unsplash
+ */
