@@ -16,9 +16,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -33,7 +35,7 @@ import javafx.scene.layout.GridPane;
 /**
  * The controller class defines the UI elements and determines the functions to user actions
  */
-public class Controller {
+public class ProductionTabsController {
   //ComboBox values from 1-10
   ObservableList<String> produceNum = FXCollections
       .observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
@@ -72,7 +74,16 @@ public class Controller {
   private Label lbl_ExistingP;//Existing Product label
 
   @FXML
-  private TableView<?> tbview_ExistingP;//Existing Product table view
+  private TableView<Product> tbview_ExistingP;//Existing Product table view
+
+  @FXML
+  private TableColumn<?, ?> col_PName;
+
+  @FXML
+  private TableColumn<?, ?> col_Manufact;
+
+  @FXML
+  private TableColumn<?, ?> col_IType;
 
   @FXML
   private Tab tab_produce;//Produce tab pane
@@ -110,15 +121,14 @@ public class Controller {
     final String DB_URL = "jdbc:h2:./res/KPL";
 
     //Database credentials
-    final String USER = "";
-    final String PASS = "";
+
     Connection conn = null;
     Statement stmt = null;
 
     try {
       Class.forName(JDBC_DRIVER);
       //Open a connection
-      conn = DriverManager.getConnection(DB_URL, USER, PASS); //bugfound
+      conn = DriverManager.getConnection(DB_URL); //bugfound
 
       //Execute a query
       stmt = conn.createStatement();
@@ -139,6 +149,7 @@ public class Controller {
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
+    setupProductLineTable();
     System.out.println("Product Added");
   }
 
@@ -159,6 +170,21 @@ public class Controller {
     cboxChQuantity.setItems(produceNum);//sets the items in the ComboBox
     cboxChQuantity.setEditable(true);//Allows the user edit
     cboxChQuantity.getSelectionModel().selectFirst();//Sets a default value in the ComboBox
+
+  }
+
+  public void setupProductLineTable(){
+    ObservableList<Product> productLine = populateTable();
+    col_PName.setCellValueFactory(new PropertyValueFactory("name"));
+    col_Manufact.setCellValueFactory(new PropertyValueFactory("manufacturer"));
+    col_IType.setCellValueFactory(new PropertyValueFactory("type"));
+    tbview_ExistingP.setItems(productLine);
+  }
+
+  public static ObservableList<Product> populateTable(){
+    return FXCollections.observableArrayList(
+        new Widget("IPOD", "APPLE", ItemType.AUDIO)
+    );
   }
 }
 
