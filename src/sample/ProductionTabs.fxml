@@ -58,7 +58,7 @@
                     <Insets bottom="80.0" top="160.0" />
                   </GridPane.margin>
                 </ChoiceBox>
-                <Button fx:id="btn_addproduct" mnemonicParsing="false" onAction="#display" text="Add product" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Button fx:id="btn_addproduct" mnemonicParsing="false" onAction="#display" prefHeight="31.0" prefWidth="145.0" text="Add product" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <GridPane.margin>
                     <Insets bottom="80.0" left="180.0" top="160.0" />
                   </GridPane.margin>
@@ -126,13 +126,13 @@
                     <Insets />
                   </GridPane.margin>
                 </ComboBox>
-                <Button fx:id="btn_RecProduction" mnemonicParsing="false" onAction="#recorded" text="Record Production" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Button fx:id="btn_RecProduction" mnemonicParsing="false" onAction="#recorded" prefHeight="31.0" prefWidth="217.0" text="Record Production" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </GridPane>
           </AnchorPane>
     </Tab>
     <Tab fx:id="tab_productionlog" text="Production Log">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <TextArea fx:id="txtarea_PLog" layoutX="208.0" layoutY="56.0" prefHeight="200.0" prefWidth="200.0" promptText="Write here" />
+            <TextArea fx:id="txtarea_PLog" layoutX="208.0" layoutY="56.0" prefHeight="354.0" prefWidth="343.0" promptText="Write here" />
         </AnchorPane>
     </Tab>
   <stylesheets>

@@ -95,22 +95,6 @@ public class ProductionTabsController {
    * @param actionEvent The action is the click of the button
    */
 
-  /*public void display(ActionEvent actionEvent) {
-    setupProductLineTable();
-
-    String pName1 = textfield_pname.getText();
-    String manufacturer1 = textfield_manuf.getText();
-    ItemType itemType1 = choicebox_IType.getValue();
-    Product myProduct;
-
-    myProduct = new Widget(pName1, manufacturer1, itemType1);
-    tbview_ExistingP.getItems().add(myProduct);
-
-    lstvw_ChooseP.getItems().add(myProduct);
-
-
-
-  }*/
   @FXML
   public void display(ActionEvent actionEvent) {
 
@@ -175,7 +159,7 @@ public class ProductionTabsController {
   /**
    * Method that prints into console when the user clicks the Production record button
    *
-   * @param actionEvent
+   * @param actionEvent the click of the button is the action
    */
   @FXML
   public void recorded(ActionEvent actionEvent) {
@@ -205,25 +189,15 @@ public class ProductionTabsController {
     tbview_ExistingP.setItems(productLine);
   }
 
-  /*
-  public static ObservableList<Product> populateTable(){
-    return FXCollections.observableArrayList(
-        new Widget("IPOD", "APPLE", ItemType.AUDIO)
-    );
-  }*/
-
-  /*
-    //First display method that prints a phrase into console
-    @FXML
-    public void display(ActionEvent actionEvent){
-      System.out.println("Product Added");
-    }
-  */
-
+  /**
+   * Method that tests the functionality of the multimedia player classes: AudioPlayer and MoviePlayer
+   */
   public static void testMultimedia() {
     AudioPlayer newAudioProduct =
         new AudioPlayer(
-            "DP-X1A", "Onkyo", "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+            "DP-X1A", "Onkyo",
+            "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC",
+            "M3U/PLS/WPL");
     Screen newScreen = new Screen("720x480", 40, 22);
     MoviePlayer newMovieProduct =
         new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen, MonitorType.LCD);
