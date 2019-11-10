@@ -7,39 +7,37 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Semester: Fall 2019.
- * 9/28/2019
- * ProductionLine
- * Program that helps a media player production facility keep track of its produced products.
- * @author Kristy Low
+ * Semester: Fall 2019. 9/28/2019 ProductionLine Program that helps a media player production
+ * facility keep track of its produced products.
  *
+ * @author Kristy Low
  */
 
-/**
- * Main class which has the Application class as a parent. Inheritance.
- */
+/** Main class which has the Application class as a parent. Inheritance. */
 public class Main extends Application {
 
-    /**
-     * Start method. Main entry for all JavaFX applications
-     * @param primaryStage
-     * @throws Exception
-     */
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("ProductionTabs.fxml"));
-        primaryStage.setTitle("Kristy's Production Line");
-        primaryStage.setScene(new Scene(root, 800, 500));
-        primaryStage.show();
-    }
+  /**
+   * Start method. Main entry for all JavaFX applications
+   *
+   * @param primaryStage
+   * @throws Exception
+   */
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    Parent root = FXMLLoader.load(getClass().getResource("ProductionTabs.fxml"));
+    primaryStage.setTitle("Kristy's Production Line");
+    primaryStage.setScene(new Scene(root, 1000, 800));
+    primaryStage.show();
+  }
 
-    /**
-     * This is the main method
-     * @param args
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+  /**
+   * This is the main method
+   *
+   * @param args
+   */
+  public static void main(String[] args) {
+    launch(args);
+  }
 }
 
 /*Acknowledgements

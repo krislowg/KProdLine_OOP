@@ -1,11 +1,14 @@
 package sample;
 
+// import java.sql.ResultSet;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import java.sql.Connection;
 import java.sql.DriverManager;
-//import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,174 +27,215 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
 /**
- * Semester: Fall 2019.
- * 9/28/2019
- * ProductionLine
- * Program that helps a media player production facility keep track of their produced products.
- * @author Kristy Low
+ * Semester: Fall 2019. 9/28/2019 ProductionLine Program that helps a media player production
+ * facility keep track of their produced products.
  *
+ * @author Kristy Low
  */
 
-/**
- * The controller class defines the UI elements and determines the functions to user actions
- */
+/** The controller class defines the UI elements and determines the functions to user actions */
 public class ProductionTabsController {
-  //ComboBox values from 1-10
-  ObservableList<String> produceNum = FXCollections
-      .observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+  ObservableList<ItemType> itemType =
+      FXCollections.observableArrayList(
+          ItemType.AUDIO, ItemType.VISUAL, ItemType.AUDIO_MOBILE, ItemType.VISUAL_MOBILE);
 
-  @FXML
-  private Tab tab_pline;//Production Line Tab
+  // ComboBox values from 1-10
+  ObservableList<String> produceNum =
+      FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
-  @FXML
-  private GridPane label_manufacturer; //Production Line GridPane
+  @FXML private Tab tab_pline; // Production Line Tab
 
-  @FXML
-  private Label label_pname;//Product name label
+  @FXML private GridPane label_manufacturer; // Production Line GridPane
 
-  @FXML
-  private Label label_manuf;//Manufacturer label
+  @FXML private Label label_pname; // Product name label
 
-  @FXML
-  private Label label_IType;//Item type label
+  @FXML private Label label_manuf; // Manufacturer label
 
-  @FXML
-  private TextField textfield_pname;//Product name textfield
+  @FXML private Label label_IType; // Item type label
 
-  @FXML
-  private TextField textfield_manuf;//Manufacturer text field
+  @FXML private TextField textfield_pname; // Product name textfield
 
-  @FXML
-  private ChoiceBox<?> choicebox_IType;//Item Type choice box
+  @FXML private TextField textfield_manuf; // Manufacturer text field
 
-  @FXML
-  private Button btn_addproduct;//Add Product Button
+  @FXML private ChoiceBox<ItemType> choicebox_IType; // Item Type choice box
 
-  @FXML
-  private Label label_confaddprod;//Add product confirmation
+  @FXML private Button btn_addproduct; // Add Product Button
 
-  @FXML
-  private Label lbl_ExistingP;//Existing Product label
+  @FXML private Label label_confaddprod; // Add product confirmation
 
-  @FXML
-  private TableView<Product> tbview_ExistingP;//Existing Product table view
+  @FXML private Label lbl_ExistingP; // Existing Product label
 
-  @FXML
-  private TableColumn<?, ?> col_PName;
+  @FXML private TableView<Product> tbview_ExistingP; // Existing Product table view
 
-  @FXML
-  private TableColumn<?, ?> col_Manufact;
+  @FXML private TableColumn<?, ?> col_PName;
 
-  @FXML
-  private TableColumn<?, ?> col_IType;
+  @FXML private TableColumn<?, ?> col_Manufact;
 
-  @FXML
-  private Tab tab_produce;//Produce tab pane
+  @FXML private TableColumn<?, ?> col_IType;
 
-  @FXML
-  private Label lbl_ChooseP;//Choose Product label
+  @FXML private Tab tab_produce; // Produce tab pane
 
-  @FXML
-  private ListView<?> lstvw_ChooseP;//Choose product list View
+  @FXML private Label lbl_ChooseP; // Choose Product label
 
-  @FXML
-  private Label lbl_ChQuantity;//Choose Quantity label
+  @FXML private ListView<Product> lstvw_ChooseP; // Choose product list View
 
-  @FXML
-  private ComboBox<String> cboxChQuantity;//Choose Quantity ComboBox
+  @FXML private Label lbl_ChQuantity; // Choose Quantity label
 
-  @FXML
-  private Button btn_RecProduction;//Record Production Button
+  @FXML private ComboBox<String> cboxChQuantity; // Choose Quantity ComboBox
 
-  @FXML
-  private Tab tab_productionlog;//Production Log tab
+  @FXML private Button btn_RecProduction; // Record Production Button
 
-  @FXML
-  private TextArea txtarea_PLog;//Production Log Text area
+  @FXML private Tab tab_productionlog; // Production Log tab
+
+  @FXML private TextArea txtarea_PLog; // Production Log Text area
 
   /**
    * The method display inserts a new product when the user clicks on the Add Product button
-   * @param actionEvent
+   *
+   * @param actionEvent The action is the click of the button
    */
+
+  /*public void display(ActionEvent actionEvent) {
+    setupProductLineTable();
+
+    String pName1 = textfield_pname.getText();
+    String manufacturer1 = textfield_manuf.getText();
+    ItemType itemType1 = choicebox_IType.getValue();
+    Product myProduct;
+
+    myProduct = new Widget(pName1, manufacturer1, itemType1);
+    tbview_ExistingP.getItems().add(myProduct);
+
+    lstvw_ChooseP.getItems().add(myProduct);
+
+
+
+  }*/
   @FXML
   public void display(ActionEvent actionEvent) {
 
-    //Initializing the DataBase
+    // Initializing the DataBase
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/KPL";
 
-    //Database credentials
+    // Database credentials
 
     Connection conn = null;
     Statement stmt = null;
 
+    setupProductLineTable();
+
+    String pName1 = textfield_pname.getText();
+    String manufacturer1 = textfield_manuf.getText();
+    ItemType itemType1 = choicebox_IType.getValue();
+    Product myProduct;
+
+    myProduct = new Widget(pName1, manufacturer1, itemType1);
+    tbview_ExistingP.getItems().add(myProduct);
+
+    lstvw_ChooseP.getItems().add(myProduct);
+
     try {
       Class.forName(JDBC_DRIVER);
-      //Open a connection
-      conn = DriverManager.getConnection(DB_URL); //bugfound
+      // Open a connection
+      conn = DriverManager.getConnection(DB_URL); // bugfound
 
-      //Execute a query
+      // Execute a query
       stmt = conn.createStatement();
 
-      //Inserts the given values into the DataBase ProdDB. (Product Table)
-      String sql = "INSERT INTO PRODUCT(type,manufacturer,name)" + "VALUES ('AUDIO','APPLE','IPOD')";
-      //"SELECT * FROM PRODUCT";
-      stmt.executeUpdate(sql);//Updates the values in the Product table
+      // Inserts the given values into the DataBase ProdDB. (Product Table)
+      System.out.println("Attempting to INSERT");
+      String sql =
+          "INSERT INTO PRODUCT(type,manufacturer,name)"
+              + "VALUES (?,?,?)"; // 'AUDIO','APPLE','IPOD'
+      // "SELECT * FROM PRODUCT";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, String.valueOf(itemType1));
+      ps.setString(2, manufacturer1);
+      ps.setString(3, pName1);
+
+      ps.executeUpdate(); // Updates the values in the Product table
+      System.out.println("Inserted!");
       /*ResultSet rs = stmt.executeQuery(sql);
-      while (rs.next()) {
-        System.out.println(rs.getString(1));
-      }*/
+      //while (rs.next()) {
+      //  System.out.println(rs.getString(1));
+      //}*/
 
       // STEP 4: Clean-up environment
-      stmt.close();//Closes the statements and the connections
+      stmt.close(); // Closes the statements and the connections
       conn.close();
 
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
-    setupProductLineTable();
+    // setupProductLineTable();
     System.out.println("Product Added");
   }
 
   /**
    * Method that prints into console when the user clicks the Production record button
+   *
    * @param actionEvent
    */
   @FXML
-  public void recorded(ActionEvent actionEvent){
+  public void recorded(ActionEvent actionEvent) {
+
     System.out.println("Production Recorded");
   }
 
   @FXML
-  /**
-   * Method to initialize and populate the ComboBox with 1-10 values
-   */
-  public void initialize(){
-    cboxChQuantity.setItems(produceNum);//sets the items in the ComboBox
-    cboxChQuantity.setEditable(true);//Allows the user edit
-    cboxChQuantity.getSelectionModel().selectFirst();//Sets a default value in the ComboBox
+  /** Method to initialize and populate the ComboBox with 1-10 values */
+  public void initialize() {
+    choicebox_IType.setItems(itemType); // sets the items in the ComboBox
+    // choicebox_IType.setEditable(true);//Allows the user edit
+    choicebox_IType.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
 
+    // Quantity combobox in the Product log tab
+    cboxChQuantity.setItems(produceNum); // sets the items in the ComboBox
+    cboxChQuantity.setEditable(true); // Allows the user edit
+    cboxChQuantity.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
   }
 
-  public void setupProductLineTable(){
-    ObservableList<Product> productLine = populateTable();
+  /** Method that sets the columns */
+  public void setupProductLineTable() {
+    ObservableList<Product> productLine = FXCollections.observableArrayList();
     col_PName.setCellValueFactory(new PropertyValueFactory("name"));
     col_Manufact.setCellValueFactory(new PropertyValueFactory("manufacturer"));
     col_IType.setCellValueFactory(new PropertyValueFactory("type"));
     tbview_ExistingP.setItems(productLine);
   }
 
+  /*
   public static ObservableList<Product> populateTable(){
     return FXCollections.observableArrayList(
         new Widget("IPOD", "APPLE", ItemType.AUDIO)
     );
+  }*/
+
+  /*
+    //First display method that prints a phrase into console
+    @FXML
+    public void display(ActionEvent actionEvent){
+      System.out.println("Product Added");
+    }
+  */
+
+  public static void testMultimedia() {
+    AudioPlayer newAudioProduct =
+        new AudioPlayer(
+            "DP-X1A", "Onkyo", "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+    Screen newScreen = new Screen("720x480", 40, 22);
+    MoviePlayer newMovieProduct =
+        new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen, MonitorType.LCD);
+    ArrayList<MultimediaControl> productList = new ArrayList<>();
+    productList.add(newAudioProduct);
+    productList.add(newMovieProduct);
+    for (MultimediaControl p : productList) {
+      System.out.println(p);
+      p.play();
+      p.stop();
+      p.next();
+      p.previous();
+    }
   }
 }
-
-/*
-  //First display method that prints a phrase into console
-  @FXML
-  public void display(ActionEvent actionEvent){
-    System.out.println("Product Added");
-  }
-*/

@@ -20,17 +20,17 @@
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="1036.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ProductionTabsController">
     <Tab fx:id="tab_pline" text="Product Line">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="757.0">
 
-            <GridPane layoutY="-1.0" prefHeight="578.0" prefWidth="1018.0">
+            <GridPane layoutX="152.0" layoutY="-1.0" prefHeight="578.0" prefWidth="731.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="295.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="436.0" minWidth="10.0" prefWidth="436.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="258.0" minHeight="10.0" prefHeight="179.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="387.0" minHeight="10.0" prefHeight="198.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="356.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="387.0" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="356.0" minHeight="10.0" prefHeight="245.0" vgrow="SOMETIMES" />
               </rowConstraints>
 
                 <Label fx:id="label_pname" text="Product Name">
@@ -43,24 +43,24 @@
                     <Insets left="20.0" />
                   </padding>
                 </Label>
-                <Label fx:id="label_IType" alignment="TOP_CENTER" text="Item type" textAlignment="JUSTIFY" GridPane.rowIndex="2">
+                <Label fx:id="label_IType" alignment="TOP_CENTER" text="Item type" textAlignment="JUSTIFY" GridPane.rowIndex="1">
                   <padding>
                     <Insets left="20.0" />
                   </padding>
                   <GridPane.margin>
-                    <Insets bottom="80.0" />
+                    <Insets bottom="80.0" top="150.0" />
                   </GridPane.margin>
                 </Label>
-                <TextField fx:id="textfield_pname" alignment="CENTER" prefHeight="31.0" prefWidth="265.0" promptText="enter product name" GridPane.columnIndex="1" />
+                <TextField fx:id="textfield_pname" alignment="CENTER" prefHeight="31.0" prefWidth="321.0" promptText="enter product name" GridPane.columnIndex="1" />
                 <TextField fx:id="textfield_manuf" alignment="CENTER" promptText="enter manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ChoiceBox fx:id="choicebox_IType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <ChoiceBox fx:id="choicebox_IType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <GridPane.margin>
-                    <Insets bottom="80.0" />
+                    <Insets bottom="80.0" top="160.0" />
                   </GridPane.margin>
                 </ChoiceBox>
-                <Button fx:id="btn_addproduct" mnemonicParsing="false" onAction="#display" text="Add product" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Button fx:id="btn_addproduct" mnemonicParsing="false" onAction="#display" text="Add product" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <GridPane.margin>
-                    <Insets bottom="80.0" left="180.0" />
+                    <Insets bottom="80.0" left="180.0" top="160.0" />
                   </GridPane.margin>
                 </Button>
                 <Label fx:id="label_confaddprod" prefHeight="0.0" prefWidth="277.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -97,7 +97,7 @@
     </Tab>
     <Tab fx:id="tab_produce" text="Produce">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <GridPane layoutX="-2.0" prefHeight="365.0" prefWidth="600.0">
+            <GridPane layoutX="160.0" prefHeight="577.0" prefWidth="684.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
