@@ -27,8 +27,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
 /**
- * Semester: Fall 2019. 9/28/2019 ProductionLine Program that helps a media player production
- * facility keep track of their produced products.
+ * Semester: Fall 2019. 9/28/2019
+ * ProductionLine Program that helps a media player production facility to keep track of
+ * their produced products.
  *
  * @author Kristy Low
  */
@@ -57,8 +58,6 @@ public class ProductionTabsController {
 
   @FXML private TextField textfield_manuf; // Manufacturer text field
 
-  @FXML private ChoiceBox<ItemType> choicebox_IType; // Item Type choice box
-
   @FXML private Button btn_addproduct; // Add Product Button
 
   @FXML private Label label_confaddprod; // Add product confirmation
@@ -66,6 +65,8 @@ public class ProductionTabsController {
   @FXML private Label lbl_ExistingP; // Existing Product label
 
   @FXML private TableView<Product> tbview_ExistingP; // Existing Product table view
+
+  @FXML private ChoiceBox<ItemType> choicebox_IType; // Item Type choice box
 
   @FXML private TableColumn<?, ?> col_PName;
 
@@ -107,18 +108,16 @@ public class ProductionTabsController {
     Connection conn = null;
     Statement stmt = null;
 
-    setupProductLineTable();
 
+
+    //Getting values from text field and combobox in Product Line tab and storing them in a variable
     String pName1 = textfield_pname.getText();
     String manufacturer1 = textfield_manuf.getText();
     ItemType itemType1 = choicebox_IType.getValue();
+
     Product myProduct;
-
     myProduct = new Widget(pName1, manufacturer1, itemType1);
-    tbview_ExistingP.getItems().add(myProduct);
-
-    lstvw_ChooseP.getItems().add(myProduct);
-
+    setupProductLineTable(myProduct);
     try {
       Class.forName(JDBC_DRIVER);
       // Open a connection
@@ -152,7 +151,22 @@ public class ProductionTabsController {
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
     }
-    // setupProductLineTable();
+
+    //tbview_ExistingP.getItems().add(myProduct);
+
+
+    lstvw_ChooseP.getItems().add(myProduct);
+
+    //getting the values from the quantity cbox and setting the text into Product log in
+    String quantity1 = cboxChQuantity.getValue();
+    String text = "";
+    //for loop to register the quantity of products in the Log In
+    for (int i=0; i< Integer.parseInt(quantity1) ;i++) {
+      text = text + "Name: " + pName1 + " Manufacturer:" + manufacturer1 + " Item Type" +
+          itemType1 +"\n";
+    }
+    txtarea_PLog.setText(text);
+
     System.out.println("Product Added");
   }
 
@@ -180,13 +194,18 @@ public class ProductionTabsController {
     cboxChQuantity.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
   }
 
-  /** Method that sets the columns */
-  public void setupProductLineTable() {
-    ObservableList<Product> productLine = FXCollections.observableArrayList();
+  ObservableList<Product> productLine = FXCollections.observableArrayList();
+
+  /** Method that sets the tableview columns */
+  public void setupProductLineTable(Product myProduct) {
+
     col_PName.setCellValueFactory(new PropertyValueFactory("name"));
     col_Manufact.setCellValueFactory(new PropertyValueFactory("manufacturer"));
     col_IType.setCellValueFactory(new PropertyValueFactory("type"));
     tbview_ExistingP.setItems(productLine);
+
+    productLine.add(myProduct);
+
   }
 
   /**
