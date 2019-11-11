@@ -1,6 +1,5 @@
 package sample;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,15 +13,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 
 /**
  * Semester: Fall 2019. 9/28/2019 ProductionLine Program that helps a media player production
@@ -41,49 +37,27 @@ public class ProductionTabsController {
   ObservableList<String> produceNum =
       FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
-  @FXML private Tab tab_pline; // Production Line Tab
-
-  @FXML private GridPane label_manufacturer; // Production Line GridPane
-
-  @FXML private Label label_pname; // Product name label
-
-  @FXML private Label label_manuf; // Manufacturer label
-
-  @FXML private Label label_IType; // Item type label
-
   @FXML private TextField textfield_pname; // Product name textfield
 
   @FXML private TextField textfield_manuf; // Manufacturer text field
 
   @FXML private Button btn_addproduct; // Add Product Button
 
-  @FXML private Label label_confaddprod; // Add product confirmation
-
-  @FXML private Label lbl_ExistingP; // Existing Product label
-
   @FXML private TableView<Product> tbview_ExistingP; // Existing Product table view
 
   @FXML private ChoiceBox<ItemType> choicebox_IType; // Item Type choice box
 
-  @FXML private TableColumn<?, ?> col_PName;
+  @FXML private TableColumn<Product, String> col_PName;
 
-  @FXML private TableColumn<?, ?> col_Manufact;
+  @FXML private TableColumn<Product, String> col_Manufact;
 
-  @FXML private TableColumn<?, ?> col_IType;
-
-  @FXML private Tab tab_produce; // Produce tab pane
-
-  @FXML private Label lbl_ChooseP; // Choose Product label
+  @FXML private TableColumn<Product, ItemType> col_IType;
 
   @FXML private ListView<Product> lstvw_ChooseP; // Choose product list View
-
-  @FXML private Label lbl_ChQuantity; // Choose Quantity label
 
   @FXML private ComboBox<String> cboxChQuantity; // Choose Quantity ComboBox
 
   @FXML private Button btn_RecProduction; // Record Production Button
-
-  @FXML private Tab tab_productionlog; // Production Log tab
 
   @FXML private TextArea txtarea_PLog; // Production Log Text area
 
@@ -150,7 +124,7 @@ public class ProductionTabsController {
     String quantity1 = cboxChQuantity.getValue();
 
     String text = "";
-    // for loop to register the quantity of products in the Log In
+    // for loop to register the quantity of products in the Product Log In
     for (int i = 0; i < Integer.parseInt(quantity1); i++) {
       text =
           text
@@ -163,6 +137,7 @@ public class ProductionTabsController {
               + "\n"; // bugfound
     }
 
+    //Sets the description of the produce product inside the text area Production Log
     txtarea_PLog.setText(text);
 
     System.out.println("Product Added");
@@ -192,11 +167,10 @@ public class ProductionTabsController {
     cboxChQuantity.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
   }
 
-  ObservableList<Product> productLine = FXCollections.observableArrayList();
+  ObservableList<Product> productLine = FXCollections.observableArrayList();//Table view related
 
   /** Method that sets the tableview columns */
   public void setupProductLineTable(Product myProduct) {
-
     col_PName.setCellValueFactory(new PropertyValueFactory("name"));
     col_Manufact.setCellValueFactory(new PropertyValueFactory("manufacturer"));
     col_IType.setCellValueFactory(new PropertyValueFactory("type"));
