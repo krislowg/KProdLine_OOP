@@ -2,8 +2,7 @@
 Software for a media player production facility that will keep track of what products are produced. 
 ## Demonstration 
 See AddProductButton_DEMO. 
-
-GUI BETA DEMO
+See GUI BETA DEMO
 
 
 ## Documentation
