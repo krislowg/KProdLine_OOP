@@ -41,5 +41,10 @@ Try/Catch: The try statement allows you to define a block of code to be tested f
 The catch statement allows you to define a block of code to be executed, if an error occurs in the try block. 
 Execute a query: using an object of type Statement for building and submitting an SQL statement to insert records into a table.
 DataBase initialize method:this method is typically used when it is necessary to ensure that the database has been created and seeded before starting some operation
+
+Beta
 PreparedStatement:  is a special kind of Java JDBC Statement object with some useful additional features.
+Observable list: is a list that allows listeners to track changes when they occur.
+Enumerations: a list of named constant.
+Interface: is a completely "abstract class" that is used to group related methods with empty bodies
 
