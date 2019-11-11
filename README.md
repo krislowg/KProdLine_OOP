@@ -3,6 +3,9 @@ Software for a media player production facility that will keep track of what pro
 ## Demonstration 
 See AddProductButton_DEMO. 
 
+GUI BETA DEMO
+
+
 ## Documentation
 Oracle
 https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html
@@ -19,12 +22,14 @@ See ProductDiagram.pdf and ProductRecordDiagram.pdf
 ## Author License
 
 ## Acknowledgments
-Background Photo by James Owen on Unsplash
+Prof. Scott Vanselow
 https://www.tutorialspoint.com/jdbc/jdbc-insert-records.htm
 http://tutorials.jenkov.com/jdbc/preparedstatement.html
 http://tutorials.jenkov.com/jdbc/query.html
 https://stackoverflow.com/questions/42211063/how-to-populate-combobox
 https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/doc-files/introduction_to_fxml.html#controllers
+Background Photo by James Owen on Unsplash
+https://www.geeksforgeeks.org/
 Classmates: Jackson Turner and Austin Nolz.
 ## History
 
