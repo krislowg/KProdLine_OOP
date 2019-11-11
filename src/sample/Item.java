@@ -3,7 +3,7 @@ package sample;
 /**
  * Semester: Fall 2019. 9/28/2019.
  * Item interface. It is the blueprint of the class Product. Establish the functions that Product
- * should implement for the
+ * should implement for the Product class
  *
  * @author Kristy Low
  */

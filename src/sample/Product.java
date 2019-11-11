@@ -2,8 +2,8 @@ package sample;
 
 /**
  * Semester: Fall 2019. 9/28/2019.
- * Product class with Item MultimediaControl as an Interface. Class that
- * captures all the details of the product.
+ * Product class with Item as an Interface. Class that captures all the details of the produced
+ * product.
  *
  * @author Kristy Low
  */
@@ -41,26 +41,46 @@ public abstract class Product implements Item {
     this.type = type;
   }
 
+  /**
+   * Gets the id value of the product
+   * @return
+   */
   @Override
   public String getId() {
     return id;
   }
 
+  /**
+   * Sets the name of the product
+   * @param name String
+   */
   @Override
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   * Gets the value of the product name
+   * @return a String with the value name
+   */
   @Override
   public String getName() {
     return name;
   }
 
+  /**
+   * Set the value of the manufacturer field of the produced product
+   * @param manufacturer
+   */
   @Override
   public void setManufacturer(String manufacturer) {
     this.manufacturer = manufacturer;
   }
 
+  /**
+   * Gets the value of the manufacturer of the produced product
+   * @return String with the manufacturer value
+   */
   @Override
   public String getManufacturer() {
     return manufacturer;
@@ -93,7 +113,7 @@ public abstract class Product implements Item {
 }
 
 /**
- * Representation of the product class
+ *Widget constructor that represents the Product class
  */
 class Widget extends Product{
   Widget(String name, String manufacturer, ItemType type) {

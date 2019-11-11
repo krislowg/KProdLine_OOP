@@ -1,8 +1,6 @@
 package sample;
 
-// import java.sql.ResultSet;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -27,9 +25,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
 /**
- * Semester: Fall 2019. 9/28/2019
- * ProductionLine Program that helps a media player production facility to keep track of
- * their produced products.
+ * Semester: Fall 2019. 9/28/2019 ProductionLine Program that helps a media player production
+ * facility to keep track of their produced products.
  *
  * @author Kristy Low
  */
@@ -95,7 +92,6 @@ public class ProductionTabsController {
    *
    * @param actionEvent The action is the click of the button
    */
-
   @FXML
   public void display(ActionEvent actionEvent) {
 
@@ -108,15 +104,14 @@ public class ProductionTabsController {
     Connection conn = null;
     Statement stmt = null;
 
-
-
-    //Getting values from text field and combobox in Product Line tab and storing them in a variable
+    // Getting values from text field and combobox in Product Line tab and storing them in a
+    // variable
     String pName1 = textfield_pname.getText();
     String manufacturer1 = textfield_manuf.getText();
     ItemType itemType1 = choicebox_IType.getValue();
 
-    Product myProduct;
-    myProduct = new Widget(pName1, manufacturer1, itemType1);
+    Product myProduct = new Widget(pName1, manufacturer1, itemType1);
+
     setupProductLineTable(myProduct);
     try {
       Class.forName(JDBC_DRIVER);
@@ -132,17 +127,13 @@ public class ProductionTabsController {
           "INSERT INTO PRODUCT(type,manufacturer,name)"
               + "VALUES (?,?,?)"; // 'AUDIO','APPLE','IPOD'
       // "SELECT * FROM PRODUCT";
-      PreparedStatement ps = conn.prepareStatement(sql);
+      PreparedStatement ps = conn.prepareStatement(sql); // bugfound
       ps.setString(1, String.valueOf(itemType1));
       ps.setString(2, manufacturer1);
       ps.setString(3, pName1);
 
       ps.executeUpdate(); // Updates the values in the Product table
       System.out.println("Inserted!");
-      /*ResultSet rs = stmt.executeQuery(sql);
-      //while (rs.next()) {
-      //  System.out.println(rs.getString(1));
-      //}*/
 
       // STEP 4: Clean-up environment
       stmt.close(); // Closes the statements and the connections
@@ -152,19 +143,26 @@ public class ProductionTabsController {
       e.printStackTrace();
     }
 
-    //tbview_ExistingP.getItems().add(myProduct);
-
-
+    // adds the product description to the listview in the Produce Tab
     lstvw_ChooseP.getItems().add(myProduct);
 
-    //getting the values from the quantity cbox and setting the text into Product log in
+    // getting the values from the quantity cbox and setting the text into Product log in
     String quantity1 = cboxChQuantity.getValue();
+
     String text = "";
-    //for loop to register the quantity of products in the Log In
-    for (int i=0; i< Integer.parseInt(quantity1) ;i++) {
-      text = text + "Name: " + pName1 + " Manufacturer:" + manufacturer1 + " Item Type" +
-          itemType1 +"\n";
+    // for loop to register the quantity of products in the Log In
+    for (int i = 0; i < Integer.parseInt(quantity1); i++) {
+      text =
+          text
+              + "Name: "
+              + pName1
+              + " Manufacturer:"
+              + manufacturer1
+              + " Item Type"
+              + itemType1
+              + "\n"; // bugfound
     }
+
     txtarea_PLog.setText(text);
 
     System.out.println("Product Added");
@@ -205,18 +203,16 @@ public class ProductionTabsController {
     tbview_ExistingP.setItems(productLine);
 
     productLine.add(myProduct);
-
   }
 
   /**
-   * Method that tests the functionality of the multimedia player classes: AudioPlayer and MoviePlayer
+   * Method that tests the functionality of the multimedia player classes: AudioPlayer and
+   * MoviePlayer
    */
   public static void testMultimedia() {
     AudioPlayer newAudioProduct =
         new AudioPlayer(
-            "DP-X1A", "Onkyo",
-            "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC",
-            "M3U/PLS/WPL");
+            "DP-X1A", "Onkyo", "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
     Screen newScreen = new Screen("720x480", 40, 22);
     MoviePlayer newMovieProduct =
         new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen, MonitorType.LCD);

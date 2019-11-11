@@ -12,11 +12,11 @@ public enum ItemType {
   AUDIO_MOBILE("AM"),
   VISUAL_MOBILE("VM");
 
-  public String code;
+  private String code;
 
   /**
    * ItemType constructor that sets the code variable a value
-   * @param code
+   * @param code of the product
    */
   ItemType(String code) {
     this.code = code;

@@ -19,7 +19,7 @@ public class Main extends Application {
   /**
    * Start method. Main entry for all JavaFX applications
    *
-   * @param primaryStage
+   * @param primaryStage main page
    * @throws Exception
    */
   @Override
@@ -33,7 +33,7 @@ public class Main extends Application {
   /**
    * This is the main method
    *
-   * @param args
+   * @param args Array
    */
   public static void main(String[] args) {
     launch(args);
