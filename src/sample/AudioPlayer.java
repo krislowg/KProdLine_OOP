@@ -1,10 +1,7 @@
 package sample;
 
 /**
- * Semester: Fall 2019. 9/28/2019.
- * AudioPlayer class with Product as a parent and MultimediaControl as an Interface. Class that
- * captures all the details of an AudioPlayer
- *
+ * AudioPlayer class with Product as a parent and MultimediaControl as an Interface.
  * @author Kristy Low
  */
 public class AudioPlayer extends Product implements MultimediaControl {
@@ -12,7 +9,6 @@ public class AudioPlayer extends Product implements MultimediaControl {
   private String supportedPlaylistFormats;
 
   /**
-   *
    * @param name of the product
    * @param manufacturer of the product intended to produce
    * @param supportedAudioFormats the supported audio format of the product
@@ -28,33 +24,25 @@ public class AudioPlayer extends Product implements MultimediaControl {
     this.supportedPlaylistFormats = supportedPlaylistFormats;
   }
 
-  /**
-   * Method that prints in console when the play() method is called.
-   */
+  /** Method that prints in console when the play() method is called. */
   @Override
   public void play() {
     System.out.println("Playing");
   }
 
-  /**
-   * Method that prints in console when the stop() method is called.
-   */
+  /** Method that prints in console when the stop() method is called. */
   @Override
   public void stop() {
     System.out.println("Stopping");
   }
 
-  /**
-   * Method that prints in console when the previous() method is called.
-   */
+  /** Method that prints in console when the previous() method is called. */
   @Override
   public void previous() {
     System.out.println("Previous");
   }
 
-  /**
-   * Method that prints in console when the next() method is called.
-   */
+  /** Method that prints in console when the next() method is called. */
   @Override
   public void next() {
     System.out.println("Next");
@@ -62,6 +50,7 @@ public class AudioPlayer extends Product implements MultimediaControl {
 
   /**
    * Method that returns the string representation of the object
+   *
    * @return a String with the information of the Supported Audio Formats and Playlist Formats
    */
   @Override
@@ -73,4 +62,3 @@ public class AudioPlayer extends Product implements MultimediaControl {
         + supportedPlaylistFormats;
   }
 }
-

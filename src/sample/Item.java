@@ -1,7 +1,6 @@
 package sample;
 
 /**
- * Semester: Fall 2019. 9/28/2019.
  * Item interface. It is the blueprint of the class Product. Establish the functions that Product
  * should implement for the Product class
  *
@@ -12,7 +11,7 @@ public interface Item {
   /**
    * Header of the method that gets the Product Id
    */
-  String getId();
+  int getId();
 
   /**
    * Header of the method that sets the Product name

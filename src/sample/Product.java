@@ -8,7 +8,7 @@ package sample;
  * @author Kristy Low
  */
 public abstract class Product implements Item {
-  private String id;
+  private int id;
   private ItemType type;
   private String manufacturer;
   private String name;
@@ -41,12 +41,16 @@ public abstract class Product implements Item {
     this.type = type;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
   /**
    * Gets the id value of the product
    * @return
    */
   @Override
-  public String getId() {
+  public int getId() {
     return id;
   }
 
@@ -93,7 +97,7 @@ public abstract class Product implements Item {
    * @param type of the product
    * @param id of the product
    */
-  Product(String name, String manufacturer, ItemType type, String id){
+  Product( int id, String name, String manufacturer, ItemType type){
     this.id = id;
     this.name = name;
     this.manufacturer = manufacturer;
@@ -118,6 +122,10 @@ public abstract class Product implements Item {
 class Widget extends Product{
   Widget(String name, String manufacturer, ItemType type) {
     super(name, manufacturer, type);
+  }
+  Widget(int id, String name, String manufacturer, ItemType type){
+    super(id, name, manufacturer, type);
+
   }
 
 }

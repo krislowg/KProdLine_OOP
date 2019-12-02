@@ -1,15 +1,19 @@
 package sample;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -27,7 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Kristy Low
  */
 
-/** The controller class defines the UI elements and determines the functions to user actions */
+/** The controller class defines the UI elements and determines the functions to user actions. */
 public class ProductionTabsController {
   ObservableList<ItemType> itemType =
       FXCollections.observableArrayList(
@@ -69,15 +73,6 @@ public class ProductionTabsController {
   @FXML
   public void display(ActionEvent actionEvent) {
 
-    // Initializing the DataBase
-    final String JDBC_DRIVER = "org.h2.Driver";
-    final String DB_URL = "jdbc:h2:./res/KPL";
-
-    // Database credentials
-
-    Connection conn = null;
-    Statement stmt = null;
-
     // Getting values from text field and combobox in Product Line tab and storing them in a
     // variable
     String pName1 = textfield_pname.getText();
@@ -86,15 +81,8 @@ public class ProductionTabsController {
 
     Product myProduct = new Widget(pName1, manufacturer1, itemType1);
 
-    setupProductLineTable(myProduct);
+
     try {
-      Class.forName(JDBC_DRIVER);
-      // Open a connection
-      conn = DriverManager.getConnection(DB_URL); // bugfound
-
-      // Execute a query
-      stmt = conn.createStatement();
-
       // Inserts the given values into the DataBase ProdDB. (Product Table)
       System.out.println("Attempting to INSERT");
       String sql =
@@ -113,7 +101,7 @@ public class ProductionTabsController {
       stmt.close(); // Closes the statements and the connections
       conn.close();
 
-    } catch (SQLException | ClassNotFoundException e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
 
@@ -137,6 +125,9 @@ public class ProductionTabsController {
               + "\n"; // bugfound
     }
 
+    //Adding a product to the Table view (Product Line tab)
+    productLine.add(myProduct);
+
     //Sets the description of the produce product inside the text area Production Log
     txtarea_PLog.setText(text);
 
@@ -154,9 +145,13 @@ public class ProductionTabsController {
     System.out.println("Production Recorded");
   }
 
+  private Connection conn = null;
+  private Statement stmt = null;
+
   @FXML
   /** Method to initialize and populate the ComboBox with 1-10 values */
   public void initialize() {
+    initializeDB();
     choicebox_IType.setItems(itemType); // sets the items in the ComboBox
     // choicebox_IType.setEditable(true);//Allows the user edit
     choicebox_IType.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
@@ -165,18 +160,60 @@ public class ProductionTabsController {
     cboxChQuantity.setItems(produceNum); // sets the items in the ComboBox
     cboxChQuantity.setEditable(true); // Allows the user edit
     cboxChQuantity.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
+
+    setupProductLineTable();
   }
 
   ObservableList<Product> productLine = FXCollections.observableArrayList();//Table view related
 
   /** Method that sets the tableview columns */
-  public void setupProductLineTable(Product myProduct) {
+  public void setupProductLineTable() {
     col_PName.setCellValueFactory(new PropertyValueFactory("name"));
     col_Manufact.setCellValueFactory(new PropertyValueFactory("manufacturer"));
     col_IType.setCellValueFactory(new PropertyValueFactory("type"));
     tbview_ExistingP.setItems(productLine);
+  }
 
-    productLine.add(myProduct);
+  private void initializeDB() {
+    final String JDBC_DRIVER = "org.h2.Driver";
+    final String DB_URL = "jdbc:h2:./res/KPL";
+    final String USER = "";
+    final String PASS = "pass";
+    try{
+      Properties prop = new Properties();
+      prop.load((new FileInputStream("res/properties")));
+    }
+    catch(Exception e){
+      System.out.println(e);
+    }
+
+    System.out.println("Attempting to connect to database");
+    try {
+      Class.forName(JDBC_DRIVER);
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+      stmt = conn.createStatement();
+      System.out.println("Successfully connected to database!");
+    } catch (Exception e) {
+      e.printStackTrace();
+      Alert a = new Alert(Alert.AlertType.ERROR);
+      a.show();
+    }
+  }
+
+  private void loadProductList() throws SQLException {
+    String sql = "SELECT * FROM PRODUCT";
+
+    ResultSet rs = stmt.executeQuery(sql);
+    while (rs.next()){
+      Integer id = rs.getInt(1);
+      String name = rs.getString(2);
+      String type = rs.getString(3);
+      String manufacturer = rs.getString(4);
+
+     //Product prodFromDb = new Widget(id, name, manufacturer, ItemType.getCode(type));
+      tbview_ExistingP.setItems(productLine);
+
+    }
   }
 
   /**
