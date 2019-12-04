@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="615.0" prefWidth="1036.0" stylesheets="@Kprodfancy.css" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Employee">
+   <children>
+      <Label layoutX="337.0" layoutY="174.0" text="Username" />
+      <Label layoutX="339.0" layoutY="330.0" text="Password" />
+      <TextField layoutX="463.0" layoutY="174.0" />
+      <PasswordField layoutX="463.0" layoutY="330.0" />
+      <Label layoutX="409.0" layoutY="74.0" text="Employee Account" />
+      <Button fx:id="btn_SignIn" layoutX="394.0" layoutY="442.0" mnemonicParsing="false" onAction="#change_EmpToProduction" prefHeight="31.0" prefWidth="206.0" text="Sign In" />
+   </children>
+</AnchorPane>

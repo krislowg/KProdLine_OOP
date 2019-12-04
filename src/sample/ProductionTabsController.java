@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,13 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -38,8 +42,8 @@ public class ProductionTabsController {
           ItemType.AUDIO, ItemType.VISUAL, ItemType.AUDIO_MOBILE, ItemType.VISUAL_MOBILE);
 
   // ComboBox values from 1-10
-  ObservableList<String> produceNum =
-      FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+  ObservableList<Integer> produceNum =
+      FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
   @FXML private TextField textfield_pname; // Product name textfield
 
@@ -59,7 +63,7 @@ public class ProductionTabsController {
 
   @FXML private ListView<Product> lstvw_ChooseP; // Choose product list View
 
-  @FXML private ComboBox<String> cboxChQuantity; // Choose Quantity ComboBox
+  @FXML private ComboBox<Integer> cboxChQuantity; // Choose Quantity ComboBox
 
   @FXML private Button btn_RecProduction; // Record Production Button
 
@@ -72,27 +76,35 @@ public class ProductionTabsController {
    */
   @FXML
   public void display(ActionEvent actionEvent) {
-
+    /*
+    //Code to show a warning message when the user presses the add button with empty fields
+    if (textfield_pname.getText().trim().isEmpty() || textfield_manuf.getText().trim().isEmpty()) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Error");
+      alert.setHeaderText("You must fill all the fields");
+      alert.setContentText(null);
+      Optional<ButtonType> action = alert.showAndWait();
+      }*/
     // Getting values from text field and combobox in Product Line tab and storing them in a
     // variable
     String pName1 = textfield_pname.getText();
     String manufacturer1 = textfield_manuf.getText();
-    ItemType itemType1 = choicebox_IType.getValue();
+    String itemType1 = choicebox_IType.getValue().toString();
 
-    Product myProduct = new Widget(pName1, manufacturer1, itemType1);
+    Product myProduct = new Widget(pName1, manufacturer1, ItemType.valueOf(itemType1));
 
 
     try {
       // Inserts the given values into the DataBase ProdDB. (Product Table)
       System.out.println("Attempting to INSERT");
       String sql =
-          "INSERT INTO PRODUCT(type,manufacturer,name)"
+          "INSERT INTO PRODUCT(name, type, manufacturer)"
               + "VALUES (?,?,?)"; // 'AUDIO','APPLE','IPOD'
       // "SELECT * FROM PRODUCT";
       PreparedStatement ps = conn.prepareStatement(sql); // bugfound
-      ps.setString(1, String.valueOf(itemType1));
-      ps.setString(2, manufacturer1);
-      ps.setString(3, pName1);
+      ps.setString(2, itemType1);
+      ps.setString(3, manufacturer1);
+      ps.setString(1, pName1);
 
       ps.executeUpdate(); // Updates the values in the Product table
       System.out.println("Inserted!");
@@ -106,30 +118,28 @@ public class ProductionTabsController {
     }
 
     // adds the product description to the listview in the Produce Tab
-    lstvw_ChooseP.getItems().add(myProduct);
+    //lstvw_ChooseP.getItems().add(myProduct);
 
     // getting the values from the quantity cbox and setting the text into Product log in
-    String quantity1 = cboxChQuantity.getValue();
 
-    String text = "";
+    Product record = lstvw_ChooseP.getSelectionModel().getSelectedItem();
+
+    int quantity = Integer.parseInt(String.valueOf(cboxChQuantity.getSelectionModel().getSelectedItem()));
+
+    ProductionRecord pr;
+
+    final  ArrayList<ProductionRecord> productRun = new ArrayList<>();
     // for loop to register the quantity of products in the Product Log In
-    for (int i = 0; i < Integer.parseInt(quantity1); i++) {
-      text =
-          text
-              + "Name: "
-              + pName1
-              + " Manufacturer:"
-              + manufacturer1
-              + " Item Type"
-              + itemType1
-              + "\n"; // bugfound
-    }
+    /*for (int i = 0; i < quantity; i++) {
+      pr = new ProductionRecord(record, i);
+      productRun.add(pr);
+    }*/
 
     //Adding a product to the Table view (Product Line tab)
     productLine.add(myProduct);
 
     //Sets the description of the produce product inside the text area Production Log
-    txtarea_PLog.setText(text);
+    txtarea_PLog.setText(productLine.toString());
 
     System.out.println("Product Added");
   }
@@ -160,8 +170,10 @@ public class ProductionTabsController {
     cboxChQuantity.setItems(produceNum); // sets the items in the ComboBox
     cboxChQuantity.setEditable(true); // Allows the user edit
     cboxChQuantity.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
+    System.out.println(ItemType.AUDIO.getCode());
 
     setupProductLineTable();
+    loadProductList();
   }
 
   ObservableList<Product> productLine = FXCollections.observableArrayList();//Table view related
@@ -172,6 +184,7 @@ public class ProductionTabsController {
     col_Manufact.setCellValueFactory(new PropertyValueFactory("manufacturer"));
     col_IType.setCellValueFactory(new PropertyValueFactory("type"));
     tbview_ExistingP.setItems(productLine);
+    lstvw_ChooseP.setItems(productLine);
   }
 
   private void initializeDB() {
@@ -200,20 +213,25 @@ public class ProductionTabsController {
     }
   }
 
-  private void loadProductList() throws SQLException {
+  private void loadProductList(){
+    try{
     String sql = "SELECT * FROM PRODUCT";
 
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()){
-      Integer id = rs.getInt(1);
+
+      int id = rs.getInt(1);
       String name = rs.getString(2);
-      String type = rs.getString(3);
+      String myType = rs.getString(3);
       String manufacturer = rs.getString(4);
-
-     //Product prodFromDb = new Widget(id, name, manufacturer, ItemType.getCode(type));
-      tbview_ExistingP.setItems(productLine);
-
+      /*if(type.equals("AUDIO"))
+        mytype = ItemType.AUDIO;*/
+      Product dB =new Product(id,name,manufacturer,ItemType.valueOf((myType))){};
+      productLine.add(dB);}
+    }catch (SQLException e){
+      e.printStackTrace();
     }
+    //tbview_ExistingP.setItems(productLine);
   }
 
   /**
