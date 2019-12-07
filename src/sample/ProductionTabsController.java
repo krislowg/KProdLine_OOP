@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
 import javafx.collections.FXCollections;
@@ -69,6 +71,27 @@ public class ProductionTabsController {
 
   @FXML private TextArea txtarea_PLog; // Production Log Text area
 
+  private Connection conn = null;
+  private Statement stmt = null;
+
+  @FXML
+  /** Method to initialize and populate the ComboBox with 1-10 values */
+  public void initialize() {
+    initializeDB();
+    choicebox_IType.setItems(itemType); // sets the items in the ComboBox
+    // choicebox_IType.setEditable(true);//Allows the user edit
+    choicebox_IType.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
+
+    // Quantity combobox in the Product log tab
+    cboxChQuantity.setItems(produceNum); // sets the items in the ComboBox
+    cboxChQuantity.setEditable(true); // Allows the user edit
+    cboxChQuantity.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
+
+    setupProductLineTable();
+    loadProductList();
+    loadProductionLog();
+  }
+
   /**
    * The method display inserts a new product when the user clicks on the Add Product button
    *
@@ -85,6 +108,18 @@ public class ProductionTabsController {
       alert.setContentText(null);
       Optional<ButtonType> action = alert.showAndWait();
       }*/
+
+    addProductToDb();
+    // adds the product description to the listview in the Produce Tab
+    //lstvw_ChooseP.getItems().add(myProduct);
+
+    //Sets the description of the produce product inside the text area Production Log
+    txtarea_PLog.setText(productLine.toString());
+
+    System.out.println("Product Added");
+  }
+
+  public void addProductToDb(){
     // Getting values from text field and combobox in Product Line tab and storing them in a
     // variable
     String pName1 = textfield_pname.getText();
@@ -92,7 +127,6 @@ public class ProductionTabsController {
     String itemType1 = choicebox_IType.getValue().toString();
 
     Product myProduct = new Widget(pName1, manufacturer1, ItemType.valueOf(itemType1));
-
 
     try {
       // Inserts the given values into the DataBase ProdDB. (Product Table)
@@ -117,32 +151,10 @@ public class ProductionTabsController {
       e.printStackTrace();
     }
 
-    // adds the product description to the listview in the Produce Tab
-    //lstvw_ChooseP.getItems().add(myProduct);
-
-    // getting the values from the quantity cbox and setting the text into Product log in
-
-    Product record = lstvw_ChooseP.getSelectionModel().getSelectedItem();
-
-    int quantity = Integer.parseInt(String.valueOf(cboxChQuantity.getSelectionModel().getSelectedItem()));
-
-    ProductionRecord pr;
-
-    final  ArrayList<ProductionRecord> productRun = new ArrayList<>();
-    // for loop to register the quantity of products in the Product Log In
-    /*for (int i = 0; i < quantity; i++) {
-      pr = new ProductionRecord(record, i);
-      productRun.add(pr);
-    }*/
-
     //Adding a product to the Table view (Product Line tab)
     productLine.add(myProduct);
-
-    //Sets the description of the produce product inside the text area Production Log
-    txtarea_PLog.setText(productLine.toString());
-
-    System.out.println("Product Added");
   }
+
 
   /**
    * Method that prints into console when the user clicks the Production record button
@@ -151,29 +163,24 @@ public class ProductionTabsController {
    */
   @FXML
   public void recorded(ActionEvent actionEvent) {
+    // getting the values from the quantity cbox and setting the text into Product log in
 
+    Widget record = new Widget (lstvw_ChooseP.getSelectionModel().getSelectedItem().getName(), lstvw_ChooseP.getSelectionModel().getSelectedItem().getManufacturer(),
+        lstvw_ChooseP.getSelectionModel().getSelectedItem().getType());
+
+    int quantity = Integer.parseInt(String.valueOf(cboxChQuantity.getSelectionModel().getSelectedItem()));
+
+    ProductionRecord pr;
+
+    final  ArrayList<ProductionRecord> productRun = new ArrayList<>();
+    // for loop to register the quantity of products in the Product Log In
+    for (int i = 0; i < quantity; i++) {
+      pr = new ProductionRecord(record, i);
+      productRun.add(pr);
+    }
+    addToProductionDB(productRun);
+    loadProductionLog();
     System.out.println("Production Recorded");
-  }
-
-  private Connection conn = null;
-  private Statement stmt = null;
-
-  @FXML
-  /** Method to initialize and populate the ComboBox with 1-10 values */
-  public void initialize() {
-    initializeDB();
-    choicebox_IType.setItems(itemType); // sets the items in the ComboBox
-    // choicebox_IType.setEditable(true);//Allows the user edit
-    choicebox_IType.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
-
-    // Quantity combobox in the Product log tab
-    cboxChQuantity.setItems(produceNum); // sets the items in the ComboBox
-    cboxChQuantity.setEditable(true); // Allows the user edit
-    cboxChQuantity.getSelectionModel().selectFirst(); // Sets a default value in the ComboBox
-    System.out.println(ItemType.AUDIO.getCode());
-
-    setupProductLineTable();
-    loadProductList();
   }
 
   ObservableList<Product> productLine = FXCollections.observableArrayList();//Table view related
@@ -213,6 +220,10 @@ public class ProductionTabsController {
     }
   }
 
+  /**
+   * Create Product objects from the Product database table and add them to the productLine
+   * ObservableList (which will automatically update the Product Line ListView).
+   */
   private void loadProductList(){
     try{
     String sql = "SELECT * FROM PRODUCT";
@@ -224,14 +235,67 @@ public class ProductionTabsController {
       String name = rs.getString(2);
       String myType = rs.getString(3);
       String manufacturer = rs.getString(4);
-      /*if(type.equals("AUDIO"))
-        mytype = ItemType.AUDIO;*/
+
       Product dB =new Product(id,name,manufacturer,ItemType.valueOf((myType))){};
       productLine.add(dB);}
     }catch (SQLException e){
       e.printStackTrace();
     }
-    //tbview_ExistingP.setItems(productLine);
+  }
+
+  public void addToProductionDB(ArrayList<ProductionRecord> productRun){
+    try{
+      String sql = "INSERT INTO PRODUCTIONRECORD(production_num, product_id, serial_num, "
+          + "date_produced)" + "VALUES (?,?,?,?)";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      for(int i = 0; i<productRun.size(); i++){
+
+    Integer productionNum = productRun.get(i).getProductionNum();
+    Integer productId = productRun.get(i).getProductID();
+    String serialNum = productRun.get(i).getSerialNum();
+    java.util.Date date = new java.util.Date();
+    java.sql.Timestamp dateProduced = new java.sql.Timestamp(date.getTime());
+
+    ps.setInt(1,productionNum);
+    ps.setInt(2,productId);
+    ps.setString(3, serialNum);
+    ps.setTimestamp(4, dateProduced);
+    ps.executeUpdate();
+
+    showProduction(productRun);
+    System.out.println(productionNum + productId + serialNum + dateProduced);
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void showProduction(ArrayList<ProductionRecord> productRun){
+    String str = productRun.toString();
+    txtarea_PLog.appendText(str.replaceAll("[\\[\\],]", "")+"\n");
+  }
+
+  public void loadProductionLog(){
+
+    try{
+      String sql = "SELECT * FROM PRODUCTIONRECORD";
+      ResultSet rs = stmt.executeQuery(sql);
+      txtarea_PLog.clear();
+      while (rs.next()){
+
+        int productionNumber = rs.getInt(1);
+        int productionId = rs.getInt(2);
+        String serialNum = rs.getString(3);
+        Date dateProduced = rs.getTimestamp(4);
+
+        ProductionRecord recordDb = new ProductionRecord(productionNumber, productionId, serialNum, dateProduced){};
+        ArrayList<ProductionRecord> productionLog = new ArrayList<>();
+        productionLog.add(recordDb);
+        showProduction(productionLog);
+      }
+    }catch (SQLException e){
+      e.printStackTrace();
+    }
   }
 
   /**
