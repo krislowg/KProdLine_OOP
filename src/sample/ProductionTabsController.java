@@ -71,6 +71,19 @@ public class ProductionTabsController {
 
   @FXML private TextArea txtarea_PLog; // Production Log Text area
 
+  //Employee Account
+  @FXML
+  private TextField txt_EmpName;
+
+  @FXML
+  private TextField txt_Password;
+
+  @FXML
+  private TextArea textArea_EmployeeAccount;
+
+  @FXML
+  private Button btn_CreateAccount;
+
   private Connection conn = null;
   private Statement stmt = null;
 
@@ -114,7 +127,7 @@ public class ProductionTabsController {
     //lstvw_ChooseP.getItems().add(myProduct);
 
     //Sets the description of the produce product inside the text area Production Log
-    txtarea_PLog.setText(productLine.toString());
+    //txtarea_PLog.setText(productLine.toString());
 
     System.out.println("Product Added");
   }
@@ -122,37 +135,39 @@ public class ProductionTabsController {
   public void addProductToDb(){
     // Getting values from text field and combobox in Product Line tab and storing them in a
     // variable
-    String pName1 = textfield_pname.getText();
-    String manufacturer1 = textfield_manuf.getText();
-    String itemType1 = choicebox_IType.getValue().toString();
 
-    Product myProduct = new Widget(pName1, manufacturer1, ItemType.valueOf(itemType1));
+      String pName1 = textfield_pname.getText();
+      String manufacturer1 = textfield_manuf.getText();
+      String itemType1 = choicebox_IType.getValue().toString();
 
-    try {
-      // Inserts the given values into the DataBase ProdDB. (Product Table)
-      System.out.println("Attempting to INSERT");
-      String sql =
-          "INSERT INTO PRODUCT(name, type, manufacturer)"
-              + "VALUES (?,?,?)"; // 'AUDIO','APPLE','IPOD'
-      // "SELECT * FROM PRODUCT";
-      PreparedStatement ps = conn.prepareStatement(sql); // bugfound
-      ps.setString(2, itemType1);
-      ps.setString(3, manufacturer1);
-      ps.setString(1, pName1);
+      Product myProduct = new Widget(pName1, manufacturer1, ItemType.valueOf(itemType1));
 
-      ps.executeUpdate(); // Updates the values in the Product table
-      System.out.println("Inserted!");
+      try {
+        // Inserts the given values into the DataBase ProdDB. (Product Table)
+        System.out.println("Attempting to INSERT");
+        String sql =
+            "INSERT INTO PRODUCT(name, type, manufacturer)"
+                + "VALUES (?,?,?)"; // 'AUDIO','APPLE','IPOD'
+        // "SELECT * FROM PRODUCT";
+        PreparedStatement ps = conn.prepareStatement(sql); // bugfound
+        ps.setString(2, itemType1);
+        ps.setString(3, manufacturer1);
+        ps.setString(1, pName1);
 
-      // STEP 4: Clean-up environment
-      stmt.close(); // Closes the statements and the connections
-      conn.close();
+        ps.executeUpdate(); // Updates the values in the Product table
+        System.out.println("Inserted!");
 
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+        // STEP 4: Clean-up environment
+        //stmt.close(); // Closes the statements and the connections
+        //conn.close();
+
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
 
     //Adding a product to the Table view (Product Line tab)
     productLine.add(myProduct);
+
   }
 
 
@@ -194,6 +209,9 @@ public class ProductionTabsController {
     lstvw_ChooseP.setItems(productLine);
   }
 
+  /**
+   * Method that Initializes the connection with Database
+   */
   private void initializeDB() {
     final String JDBC_DRIVER = "org.h2.Driver";
     final String DB_URL = "jdbc:h2:./res/KPL";
@@ -243,27 +261,31 @@ public class ProductionTabsController {
     }
   }
 
+  /**
+   * Methods that adds specific products to be recorded in the production
+   * @param productRun ArrayList of Production Records
+   */
   public void addToProductionDB(ArrayList<ProductionRecord> productRun){
     try{
-      String sql = "INSERT INTO PRODUCTIONRECORD(production_num, product_id, serial_num, "
-          + "date_produced)" + "VALUES (?,?,?,?)";
+      String sql = "INSERT INTO PRODUCTIONRECORD(product_id, serial_num, "
+          + "date_produced)" + "VALUES (?,?,?)";
       PreparedStatement ps = conn.prepareStatement(sql);
       for(int i = 0; i<productRun.size(); i++){
 
-    Integer productionNum = productRun.get(i).getProductionNum();
+    //Integer productionNum = productRun.get(i).getProductionNum();
     Integer productId = productRun.get(i).getProductID();
     String serialNum = productRun.get(i).getSerialNum();
     java.util.Date date = new java.util.Date();
     java.sql.Timestamp dateProduced = new java.sql.Timestamp(date.getTime());
 
-    ps.setInt(1,productionNum);
-    ps.setInt(2,productId);
-    ps.setString(3, serialNum);
-    ps.setTimestamp(4, dateProduced);
+    //ps.setInt(1,productionNum);
+    ps.setInt(1,productId);
+    ps.setString(2, serialNum);
+    ps.setTimestamp(3, dateProduced);
     ps.executeUpdate();
 
     showProduction(productRun);
-    System.out.println(productionNum + productId + serialNum + dateProduced);
+    System.out.println(productId + serialNum + dateProduced);
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -298,6 +320,32 @@ public class ProductionTabsController {
     }
   }
 
+  //////////////////////Create Employee Account//////////////////////////////////
+
+
+  public void getFieldsContent(){
+    String fullName = txt_EmpName.getText();
+    String password =txt_Password.getText();
+    if (txt_EmpName.getText().trim().isEmpty() || txt_Password.getText().trim().isEmpty()) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Error");
+      alert.setHeaderText("You must fill all the fields");
+      alert.setContentText(null);
+      Optional<ButtonType> action = alert.showAndWait();
+    } else {
+      EmployeeCheck newEmployee = new EmployeeCheck(fullName, password);
+      textArea_EmployeeAccount.setText(newEmployee.toString());
+    }
+  }
+
+  @FXML
+  void checkCredentials(ActionEvent event) {
+    getFieldsContent();
+  }
+
+
+
+  ///////////////////////////////////////////////////////////////////////////////
   /**
    * Method that tests the functionality of the multimedia player classes: AudioPlayer and
    * MoviePlayer
