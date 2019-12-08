@@ -10,8 +10,6 @@ See AddProductButton_DEMO.
 See BETA_Demo.pdf<br />
 ![Sample Image](docs/kspline.gif)
 
-
-
 ## Documentation
 [JavaDoc](https://github.com/krislowg/KProdLine_OOP/blob/master/docs/index.html)
 
@@ -19,13 +17,24 @@ Oracle
 https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html
 https://www.tutorialspoint.com/javafx/javafx_event_handling.htm
 https://docs.microsoft.com/en-us/dotnet/api/system.data.entity.database.initialize?view=entity-framework-6.2.0
+http://nob.cs.ucdavis.edu/bishop/secprog/robust.html
 
 ## Diagrams
 See ProductDiagram.pdf and ProductRecordDiagram.pdf   
 
 ## Getting Started
+1.	Have IntelliJ IDEA Ultimate version installed 
+2.	Click on VCS then click on Check out from version control then Git
+3.	Copy the following URL in the URL entry: https://github.com/krislowg/KProdLine_OOP
+4.  In order to run the software, go to the main.java file and click on Run.
+5.	NOTE: The database tables are not accessible while the program is running. As long as it is running, if the user clicks on H2 KPL the tables will not be displayed. The tables, PRODUCT and PRODUCTIONRECORD will be accessible after stopping the run and refreshing the project.
 
 ## Built With Contributing 
+Intellij IDE
+JavaFX
+CSS Style
+Interface:Scene Builder
+Database:H2
 
 ## Author License
 
@@ -39,7 +48,6 @@ https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/doc-files/introduction_t
 Background Photo by James Owen on Unsplash<br />
 https://www.geeksforgeeks.org/<br />
 Classmates: Jackson Turner and Austin Nolz.
-## History
 
 ## Key Programming Concepts Utilized**
 Inheritance: A class that is derived from another class is called a subclass (also a derived class, extended class, or child class). The class from which the subclass is derived is called a superclass (also a base class or a parent class).<br />
@@ -56,4 +64,9 @@ PreparedStatement:  is a special kind of Java JDBC Statement object with some us
 Observable list: is a list that allows listeners to track changes when they occur.<br />
 Enumerations: a list of named constant.<br />
 Interface: is a completely "abstract class" that is used to group related methods with empty bodies<br />
+
+Final
+Regex: is a character or a sequence of characters that represent a String or Multiple Strings. <br />
+Recursion: is when a method makes a call to itself. <br />
+Robustness: s a style of programming that prevents abnormal termination or unexpected actions<br />
 
