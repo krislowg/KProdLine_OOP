@@ -1,5 +1,10 @@
 # ProductLineOOP
-Software for a media player production facility that will keep track of what products are produced. 
+Software for a media player production facility that will keep track of what products are produced. <br />
+I made this project independently for my Object Oriented Programming class from September-December 2019.<br />
+It is a class project that applies the majority of the OOP concepts. This assignment allowed me to apply the concepts of interface, enumerations, recursion, and many more.
+The Production Line project integrates GUI with database. For this program we used Java, JavaFX, and SQL H2 database.
+It was a fun project to develop, it was my first time working with databases.
+
 ## Demonstration 
 See AddProductButton_DEMO. 
 See BETA_Demo.pdf<br />
