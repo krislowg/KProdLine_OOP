@@ -3,6 +3,7 @@ Software for a media player production facility that will keep track of what pro
 ## Demonstration 
 See AddProductButton_DEMO. 
 See BETA_Demo.pdf
+![Sample Image](docs/kspline.gif)
 
 
 
