@@ -343,8 +343,13 @@ public class ProductionTabsController {
     getFieldsContent();
   }
 
-
-
+  public String reverseString(String id) {
+    // Paste the code for your reverseString method here.
+    if (id.length() == 0)
+      return id;
+    else
+      return reverseString(id.substring(1)) + id.charAt(0);//Change the first character to the end of the string
+  }
   ///////////////////////////////////////////////////////////////////////////////
   /**
    * Method that tests the functionality of the multimedia player classes: AudioPlayer and
