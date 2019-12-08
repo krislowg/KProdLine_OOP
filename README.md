@@ -37,6 +37,7 @@ Interface:Scene Builder
 Database:H2
 
 ## Author License
+Unlicense
 
 ## Acknowledgments
 Prof. Scott Vanselow
