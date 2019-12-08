@@ -1,7 +1,6 @@
 package sample;
 
 /**
- * Semester: Fall 2019. 9/28/2019.
  * MultimediaControl interface. It is the blueprint of the class MoviePlayer and AudioPLayer.
  * Establish the functions that MoviePlayer and AudioPLayer must do.
  *

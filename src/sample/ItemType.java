@@ -1,7 +1,6 @@
 package sample;
 
 /**
- * Semester: Fall 2019. 9/28/2019.
  * Enum ItemType. Represents the group of named constants for the Item type
  *
  * @author Kristy Low

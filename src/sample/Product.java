@@ -1,7 +1,6 @@
 package sample;
 
 /**
- * Semester: Fall 2019. 9/28/2019.
  * Product class with Item as an Interface. Class that captures all the details of the produced
  * product.
  *
@@ -23,7 +22,7 @@ public abstract class Product implements Item {
 
   /**
    * Set the value for the product type
-   * @param type
+   * @param type of the product
    */
   public void setType(ItemType type) {
     this.type = type;
@@ -47,7 +46,7 @@ public abstract class Product implements Item {
 
   /**
    * Gets the id value of the product
-   * @return
+   * @return id
    */
   @Override
   public int getId() {
@@ -74,7 +73,7 @@ public abstract class Product implements Item {
 
   /**
    * Set the value of the manufacturer field of the produced product
-   * @param manufacturer
+   * @param manufacturer of the product
    */
   @Override
   public void setManufacturer(String manufacturer) {

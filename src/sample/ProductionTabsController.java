@@ -31,7 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * Semester: Fall 2019. 9/28/2019 ProductionLine Program that helps a media player production
+ * ProductionLine Program that helps a media player production
  * facility to keep track of their produced products.
  *
  * @author Kristy Low
@@ -112,7 +112,6 @@ public class ProductionTabsController {
    */
   @FXML
   public void display(ActionEvent actionEvent) {
-    /*
     //Code to show a warning message when the user presses the add button with empty fields
     if (textfield_pname.getText().trim().isEmpty() || textfield_manuf.getText().trim().isEmpty()) {
       Alert alert = new Alert(AlertType.ERROR);
@@ -120,18 +119,16 @@ public class ProductionTabsController {
       alert.setHeaderText("You must fill all the fields");
       alert.setContentText(null);
       Optional<ButtonType> action = alert.showAndWait();
-      }*/
+      }
 
     addProductToDb();
-    // adds the product description to the listview in the Produce Tab
-    //lstvw_ChooseP.getItems().add(myProduct);
-
-    //Sets the description of the produce product inside the text area Production Log
-    //txtarea_PLog.setText(productLine.toString());
 
     System.out.println("Product Added");
   }
 
+  /**
+   * Method that gets the products from the text fields and insert it into the database
+   */
   public void addProductToDb(){
     // Getting values from text field and combobox in Product Line tab and storing them in a
     // variable
@@ -228,7 +225,7 @@ public class ProductionTabsController {
     System.out.println("Attempting to connect to database");
     try {
       Class.forName(JDBC_DRIVER);
-      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);//bug found
       stmt = conn.createStatement();
       System.out.println("Successfully connected to database!");
     } catch (Exception e) {
@@ -246,7 +243,7 @@ public class ProductionTabsController {
     try{
     String sql = "SELECT * FROM PRODUCT";
 
-    ResultSet rs = stmt.executeQuery(sql);
+    ResultSet rs = stmt.executeQuery(sql);//bugfound
     while (rs.next()){
 
       int id = rs.getInt(1);
@@ -269,7 +266,7 @@ public class ProductionTabsController {
     try{
       String sql = "INSERT INTO PRODUCTIONRECORD(product_id, serial_num, "
           + "date_produced)" + "VALUES (?,?,?)";
-      PreparedStatement ps = conn.prepareStatement(sql);
+      PreparedStatement ps = conn.prepareStatement(sql);//bugfound
       for(int i = 0; i<productRun.size(); i++){
 
     //Integer productionNum = productRun.get(i).getProductionNum();
@@ -292,16 +289,24 @@ public class ProductionTabsController {
     }
   }
 
+  /**
+   * Method that displays all the productions recorded in the text Area
+   * @param productRun Arraylist of the production record objects
+   */
   public void showProduction(ArrayList<ProductionRecord> productRun){
     String str = productRun.toString();
     txtarea_PLog.appendText(str.replaceAll("[\\[\\],]", "")+"\n");
   }
 
+  /**
+   * Method that pulls all the data from the ProductionRecord table to populate the Text Area in the
+   * Production log tab
+   */
   public void loadProductionLog(){
 
     try{
       String sql = "SELECT * FROM PRODUCTIONRECORD";
-      ResultSet rs = stmt.executeQuery(sql);
+      ResultSet rs = stmt.executeQuery(sql);//bugfound
       txtarea_PLog.clear();
       while (rs.next()){
 
@@ -322,7 +327,9 @@ public class ProductionTabsController {
 
   //////////////////////Create Employee Account//////////////////////////////////
 
-
+  /**
+   * Method that gets the fields from the employee account tab
+   */
   public void getFieldsContent(){
     String fullName = txt_EmpName.getText();
     String password =txt_Password.getText();
@@ -338,13 +345,21 @@ public class ProductionTabsController {
     }
   }
 
+  /**
+   * Method that takes the information of an employee to create an account
+   * @param event create account button
+   */
   @FXML
   void checkCredentials(ActionEvent event) {
     getFieldsContent();
   }
 
+  /**
+   * Method that reverses a string to add more security to the program
+   * @param id the password
+   * @return the reversed string
+   */
   public String reverseString(String id) {
-    // Paste the code for your reverseString method here.
     if (id.length() == 0)
       return id;
     else

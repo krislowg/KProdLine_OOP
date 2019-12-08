@@ -1,12 +1,6 @@
 package sample;
 
 /**
- * Semester: Fall 2019. 9/28/2019
- *
- * @author Kristy Low
- */
-
-/**
  * Screen class. Establish the specifications of the product's screen
  */
 public class Screen implements ScreenSpec {

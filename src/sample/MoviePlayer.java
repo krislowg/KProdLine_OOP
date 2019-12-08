@@ -1,7 +1,6 @@
 package sample;
 
 /**
- * Semester: Fall 2019. 9/28/2019.
  * MoviePlayer class with Product as a parent and MultimediaControl as an Interface. Class that
  * captures all the details of a MoviePlayer
  *

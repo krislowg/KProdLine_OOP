@@ -3,7 +3,6 @@ package sample;
 import java.util.Date;
 
 /**
- * Semester: Fall 2019. 9/28/2019
  * ProductionRecord class describes what product and when a product was produced.
  *
  * @author Kristy Low
@@ -33,7 +32,7 @@ public class ProductionRecord {
 
   /**
    * Sets the value of the ProductID of the produced product
-   * @param productID
+   * @param productID of the product
    */
   public void setProductID(int productID) {
     this.productID = productID;
@@ -41,7 +40,7 @@ public class ProductionRecord {
 
   /**
    * Gets the ID of the produced product
-   * @return
+   * @return product ID
    */
   public int getProductID() {
     return productID;
@@ -49,7 +48,7 @@ public class ProductionRecord {
 
   /**
    * Sets the serial Number value  of the produced product
-   * @param serialNumber
+   * @param serialNumber PRODUCT
    */
   public void setSerialNum(String serialNumber) {
     this.serialNumber = serialNumber;
@@ -57,7 +56,7 @@ public class ProductionRecord {
 
   /**
    * Gets the value of the Serial number of the product produced
-   * @return
+   * @return product
    */
   public String getSerialNum() {
     return serialNumber;
@@ -82,7 +81,7 @@ public class ProductionRecord {
   /**
    * Constructor that sets the productID value and sets the other fields to 0 and calls the default
    * constructor for the produced date
-   * @param productID
+   * @param productID of product
    */
   ProductionRecord(int productID) {
     this.productID = productID;
@@ -108,8 +107,8 @@ public class ProductionRecord {
   /**
    * Sets the value of serial number with the combination of the manufacturer values, the product
    * type, and a autoincremented value
-   * @param product
-   * @param count
+   * @param product product produced
+   * @param count number of products recorded
    */
   ProductionRecord(Product product, int count) {
     this.serialNumber =
