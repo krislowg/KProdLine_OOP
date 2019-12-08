@@ -11,7 +11,7 @@ See BETA_Demo.pdf<br />
 ![Sample Image](docs/kspline.gif)
 
 ## Documentation
-[JavaDoc](https://krislowg.github.io/KProdLine_OOP/docs/index.html)
+[JavaDoc](https://krislowg.github.io/KProdLine_OOP/javadoc/index.html)
 
 Oracle
 https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html
