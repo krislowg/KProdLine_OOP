@@ -37,18 +37,18 @@ Classmates: Jackson Turner and Austin Nolz.
 ## History
 
 ## Key Programming Concepts Utilized**
-Inheritance: A class that is derived from another class is called a subclass (also a derived class, extended class, or child class). The class from which the subclass is derived is called a superclass (also a base class or a parent class).
-Controller: a compiled class that implements the "code behind" the object hierarchy defined by the document.
-Event handler: the mechanism that controls the event and decides what should happen, if an event occurs. 
-Exception handling:is a mechanism to handle runtime errors.
-Try/Catch: The try statement allows you to define a block of code to be tested for errors while it is being executed.
-The catch statement allows you to define a block of code to be executed, if an error occurs in the try block. 
-Execute a query: using an object of type Statement for building and submitting an SQL statement to insert records into a table.
-DataBase initialize method:this method is typically used when it is necessary to ensure that the database has been created and seeded before starting some operation
+Inheritance: A class that is derived from another class is called a subclass (also a derived class, extended class, or child class). The class from which the subclass is derived is called a superclass (also a base class or a parent class).<br />
+Controller: a compiled class that implements the "code behind" the object hierarchy defined by the document.<br />
+Event handler: the mechanism that controls the event and decides what should happen, if an event occurs. <br />
+Exception handling:is a mechanism to handle runtime errors.<br />
+Try/Catch: The try statement allows you to define a block of code to be tested for errors while it is being executed.<br />
+The catch statement allows you to define a block of code to be executed, if an error occurs in the try block. <br />
+Execute a query: using an object of type Statement for building and submitting an SQL statement to insert records into a table.<br />
+DataBase initialize method:this method is typically used when it is necessary to ensure that the database has been created and seeded before starting some operation<br />
 
 Beta
-PreparedStatement:  is a special kind of Java JDBC Statement object with some useful additional features.
-Observable list: is a list that allows listeners to track changes when they occur.
-Enumerations: a list of named constant.
-Interface: is a completely "abstract class" that is used to group related methods with empty bodies
+PreparedStatement:  is a special kind of Java JDBC Statement object with some useful additional features.<br />
+Observable list: is a list that allows listeners to track changes when they occur.<br />
+Enumerations: a list of named constant.<br />
+Interface: is a completely "abstract class" that is used to group related methods with empty bodies<br />
 
